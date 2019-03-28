@@ -14,7 +14,7 @@ class Hellow(BaseController):
     print(route)
     # @Permission(pms=['signature'])
     def get(self,*args, **kwargs):
-        self.write({"hello": "欢迎来到诸葛对接!!!!"})
+        self.write({"hello": "欢迎使用Api!!!!"})
 
 # #对接渠道详情
 # @route("/(?P<city>\w*)/detail/GetChannel/HouseData")
