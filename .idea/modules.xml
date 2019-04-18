@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/zhuge_tornado.iml" filepath="$PROJECT_DIR$/.idea/zhuge_tornado.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PyCao.iml" filepath="$PROJECT_DIR$/.idea/PyCao.iml" />
     </modules>
   </component>
 </project>
