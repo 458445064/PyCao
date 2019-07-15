@@ -41,10 +41,10 @@ def catch_yield(*dargs, **dkwargs):
 class BaseController(tornado.web.RequestHandler):
     # executor = Executor()
     #
-    # def set_default_headers(self):
-    #     self.set_header("Access-Control-Allow-Origin", "*")
-    #     self.set_header("Access-Control-Allow-Headers", "x-requested-with")
-    #     self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
+    def set_default_headers(self):
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Headers", "x-requested-with")
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
     #
     # @catch_yield()
     # @tornado.gen.coroutine
