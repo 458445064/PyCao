@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from service.Base import Base
 
+
 class BaseMysqlService(Base):
     def __init__(self, dao):
         self.dao = dao
-
 
     def get(self, *args, **kwargs):
         return self.dao.select_model(*args, **kwargs)

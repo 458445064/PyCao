@@ -1,15 +1,14 @@
 # -*- coding: UTF-8 -*-
-
 import pymysql
 from apps.config.Config import mysql_conf
 import contextlib
 import logging
+
+
 class MysqlDB(object):
     def __init__(self, *args, **kwargs):
         self.conf_name = kwargs.get("conf_name")
         self.db_name = kwargs.get("db_name")
-
-
 
     @contextlib.contextmanager
     def get_conn(self, *args, **kwargs):
@@ -31,7 +30,6 @@ class MysqlDB(object):
         finally:
             cursor.close()
             conn.close()
-
 
     def get_connection(self, *args, **kwargs):
         # 获取主从连接

@@ -1,19 +1,15 @@
-
-
 import json
 from PackRoute import BaseController
 from PackRoute import Route
 from apps.admin_dm.service.detail.LoginService import LoginService
 
-# from apps.admin_dm.controller.basecontroller import Permission
 
 route = Route()
 @route("/hello")
-#  Hellow = route(Hellow)
 class Hellow(BaseController):
-    print(route)
+
     # @Permission(pms=['signature'])
-    def get(self,*args, **kwargs):
+    def get(self, *args, **kwargs):
         self.write({"hello": "欢迎使用Api!!!!"})
 
 # 前端 登陆 验证
@@ -22,19 +18,24 @@ class LoIng(BaseController):
     LoginServices = LoginService()
 
     def post(self, *args, **kwargs):
-        self.result = {"message": "success", "state": "no", "code": "200"}
+
+        result = {"message": "success", "state": "ok", "code": "200"}
+
         try:
             user_info = json.loads(self.request.body)
             if not user_info:
-                self.result["message"] = "账号信息获取失败!!!"
+                result["message"] = "账号信息获取失败!!!"
             result_data = self.LoginServices.LoginAuthentication(user_info)
+
             if not result_data:
-                self.result["message"] = "账号信息验证失败!!!"
+                result["message"] = "账号信息验证失败!!!"
             else:
-                self.result["data"] = "账号信息验证成功!!!"
-                self.result["state"] = "ok"
+                result["data"] = "账号信息验证成功!!!"
+                result["state"] = "ok"
+
         except Exception as e:
             self.result["message"] = "账号信息获取失败!!!"
+
         self.write(self.result)
 #
 # #对接渠道详情

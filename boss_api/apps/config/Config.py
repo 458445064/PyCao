@@ -30,5 +30,8 @@ mysql_conf = {
     }
 }
 
-redis_conf ={
+redis_conf = {
+}
+
+mongo_conf = {
 }
