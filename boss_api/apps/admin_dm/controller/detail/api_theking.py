@@ -3,9 +3,9 @@
 import json
 from PackRoute import BaseController
 from PackRoute import Route
-from apps.zhuge_dios.service.detail.LoginService import LoginService
+from apps.admin_dm.service.detail.LoginService import LoginService
 
-# from apps.zhuge_dios.controller.basecontroller import Permission
+# from apps.admin_dm.controller.basecontroller import Permission
 
 route = Route()
 @route("/hello")

@@ -2,7 +2,7 @@ import sys
 sys.path.append("../../../")
 import tornado.ioloop
 from PackRoute import Route
-from apps.zhuge_dios.controller.detail.api_theking import route as route1
+from apps.admin_dm.controller.detail.api_theking import route as route1
 
 
 
