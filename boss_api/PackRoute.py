@@ -45,19 +45,18 @@ class BaseController(tornado.web.RequestHandler):
         self.set_header("Access-Control-Allow-Origin", "*")
         self.set_header("Access-Control-Allow-Headers", "x-requested-with")
         self.set_header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS')
-    #
+
     # @catch_yield()
     # @tornado.gen.coroutine
     def get(self, *args, **kwargs):
         data = yield self.gethandle(*args, **kwargs)
         return data
-    #
+
     # @catch_yield()
     # @tornado.gen.coroutine
     def post(self, *args, **kwargs):
         data = yield self.posthandle(*args, **kwargs)
         return data
-    #
     # @catch_yield()
     # @tornado.gen.coroutine
     # def head(self, *args, **kwargs):

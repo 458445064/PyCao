@@ -2,6 +2,7 @@ import json
 from PackRoute import BaseController
 from PackRoute import Route
 from apps.admin_dm.service.detail.LoginService import LoginService
+from apps.admin_dm.controller.basecontroller import Permission
 
 
 route = Route()
@@ -19,13 +20,13 @@ class LoIng(BaseController):
 
     def post(self, *args, **kwargs):
 
-        result = {"message": "success", "state": "ok", "code": "200"}
+        result = {"message": "success", "state": "ok", "code": True}
 
         try:
             user_info = json.loads(self.request.body)
             if not user_info:
                 result["message"] = "账号信息获取失败!!!"
-            result_data = self.LoginServices.LoginAuthentication(user_info)
+            result_data = self.LoginServices.login(user_info)
 
             if not result_data:
                 result["message"] = "账号信息验证失败!!!"
@@ -67,5 +68,26 @@ class LoIng(BaseController):
 #             print(e)
 #             self.result["message"] = "请检查参数是否正确!!!"
 #         self.write(self.result)
+
+
+@route("/login")
+class Login(BaseController):
+    LoginServices = LoginService()
+
+    @Permission(pms=['signature'])
+    def post(self, *args, **kwargs):
+        result = {"message": "success", "state": True, "code": "200"}
+        try:
+            user_info = json.loads(self.request.body)
+            res_user_info = self.LoginServices.login(user_info)
+            if not res_user_info:
+                result["state"] = False
+                result["code"] = "40001"
+        except Exception as e:
+            result["message"] = "账号信息异常"
+            result["state"] = False
+            result["code"] = "40005"
+        self.write(result)
+
 
 

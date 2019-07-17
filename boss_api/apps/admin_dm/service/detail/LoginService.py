@@ -1,23 +1,25 @@
 from DataBases.dbfactory.dbfactory import dbfactory
 
 
-class LoginService():
+class LoginService(object):
 
     def __init__(self, *args, **kwargs):
-        self.conn = dbfactory.create_db(conf_name=kwargs.get("conf_name", "vue"), db_name="test", db_type="db_mysql")
+        self.conn = dbfactory.create_db(conf_name="admin_vue", db_name="admin_dm", db_type="db_mysql")
 
-    def LoginAuthentication(self, user_info):
-        user_phone = user_info.get("phone")
-        user_password = user_info.get("password")
+    def login(self, user_info):
 
-        # sql = f"""
-        # select user_name from user_info where user_name = "{user_name}" and user_password = "{user_password}"
-        # """
+        user_name = user_info.get("user_name")
+        password = user_info.get("password")
+        sql = f"""
+        select  user_name from user where user_name = '{user_name}' and password = '{password}' and state = 1
+        """
+
         with self.conn.get_conn() as cursor:
-            cursor.execute()
+            cursor.execute(sql)
             res = cursor.fetchall()
-            if res:
-                return res[0]
+            return res
+
+
 
 
 if __name__ == '__main__':
