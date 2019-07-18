@@ -77,26 +77,18 @@ class Login(BaseController):
     # @Permission(pms=['signature'])
     def post(self, *args, **kwargs):
         result = {"message": "success", "state": True, "code": "200"}
-        # try:
-        #     user_info = json.loads(self.request.body)
-        #     res_user_info = self.LoginServices.login(user_info)
-        #     if not res_user_info:
-        #         result["state"] = False
-        #         result["code"] = "40001"
-        #         result["success"] = "账号信息获取失败"
-        #         print(res_user_info)
-        #
-        # except Exception as e:
-        #     result["message"] = "账号信息异常"
-        #     result["state"] = False
-        #     result["code"] = "40005"
-        user_info = json.loads(self.request.body)
-        res_user_info = self.LoginServices.login(user_info)
-        if not res_user_info:
+        try:
+            user_info = str(self.request.body, encoding="utf-8")
+            res_user_info = self.LoginServices.login(user_info)
+            if not res_user_info:
+                result["state"] = False
+                result["code"] = "40001"
+                result["success"] = "账号信息获取失败"
+
+        except Exception as e:
+            result["message"] = "账号信息异常"
             result["state"] = False
-            result["code"] = "40001"
-            result["success"] = "账号信息获取失败"
-            print(res_user_info)
+            result["code"] = "40005"
         self.write(result)
 
 
