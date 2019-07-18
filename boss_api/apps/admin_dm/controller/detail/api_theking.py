@@ -78,7 +78,12 @@ class Login(BaseController):
     def post(self, *args, **kwargs):
         result = {"message": "success", "state": True, "code": "200"}
         try:
-            user_info = str(self.request.body, encoding="utf-8")
+            user_detail = str(self.request.body, encoding="utf-8")
+            if not user_detail:
+                result["state"] = False
+                result["code"] = "40001"
+                result["success"] = "账号信息获取失败"
+            user_info = eval(user_detail)
             res_user_info = self.LoginServices.login(user_info)
             if not res_user_info:
                 result["state"] = False
