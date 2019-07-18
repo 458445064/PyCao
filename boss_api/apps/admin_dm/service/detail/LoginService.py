@@ -24,7 +24,13 @@ class LoginService(object):
 
 
 if __name__ == '__main__':
-    pass
+    loginservice = LoginService()
+    user_info = {
+        "user_name": "admin",
+        "password": "123456"
+    }
+    res = loginservice.login(user_info)
+    print(res)
 
 
 
