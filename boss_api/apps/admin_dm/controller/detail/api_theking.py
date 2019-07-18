@@ -74,7 +74,7 @@ class LoIng(BaseController):
 class Login(BaseController):
     LoginServices = LoginService()
 
-    @Permission(pms=['signature'])
+    # @Permission(pms=['signature'])
     def post(self, *args, **kwargs):
         result = {"message": "success", "state": True, "code": "200"}
         try:
@@ -83,6 +83,9 @@ class Login(BaseController):
             if not res_user_info:
                 result["state"] = False
                 result["code"] = "40001"
+                result["success"] = "账号信息获取失败"
+                print(res_user_info)
+
         except Exception as e:
             result["message"] = "账号信息异常"
             result["state"] = False
