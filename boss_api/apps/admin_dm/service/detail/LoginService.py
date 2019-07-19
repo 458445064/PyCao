@@ -7,9 +7,8 @@ class LoginService(object):
         self.conn = dbfactory.create_db(conf_name="admin_vue", db_name="admin_dm", db_type="db_mysql")
 
     def login(self, user_info):
-        print(self.conn, "mysql cursor")
 
-        user_name = user_info.get("user_name")
+        user_name = user_info.get("username")
         password = user_info.get("password")
         sql = f"""
         select  user_name from user where user_name = '{user_name}' and password = '{password}' and state = 1
