@@ -7,7 +7,6 @@ class LoginService(object):
         self.conn = dbfactory.create_db(conf_name="admin_vue", db_name="admin_dm", db_type="db_mysql")
 
     def login(self, user_info):
-
         user_name = user_info.get("username")
         password = user_info.get("password")
         sql = f"""
@@ -20,8 +19,6 @@ class LoginService(object):
             return res
 
 
-
-
 if __name__ == '__main__':
     loginservice = LoginService()
     user_info = {
@@ -30,8 +27,3 @@ if __name__ == '__main__':
     }
     res = loginservice.login(user_info)
     print(res)
-
-
-
-
-
