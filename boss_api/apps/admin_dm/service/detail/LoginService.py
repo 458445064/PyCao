@@ -1,28 +1,35 @@
-from DataBases.dbfactory.dbfactory import dbfactory
+from apps.admin_dm.service.base_service import BaseConn
+from utius.BaseUtius import BaseUtils
+from apps.admin_dm.api_error.error_test import error_text
 
 
 class LoginService(object):
 
-    def __init__(self, *args, **kwargs):
-        self.conn = dbfactory.create_db(conf_name="admin_vue", db_name="admin_dm", db_type="db_mysql")
+    def __init__(self):
+        self.base_conn = BaseConn(conf_name="admin_vue", db_type="db_redis")
 
-    def login(self, user_info):
+    def login(self, user_detail):
+        if not user_detail:
+            return error_text().params
+        user_info = eval(user_detail)
+        # user_info = user_detail
         user_name = user_info.get("username")
         password = user_info.get("password")
-        sql = f"""
-        select  user_name from user where user_name = '{user_name}' and password = '{password}' and state = 1
-        """
 
-        with self.conn.get_conn() as cursor:
-            cursor.execute(sql)
-            res = cursor.fetchall()
-            return res
+        res_user_info = self.base_conn.redis_conn_hget(key="user_cache", data=user_name)
+        if not res_user_info:
+            return error_text().notfound
+
+        if not any([password == str(res_user_info, encoding="utf-8")]):
+            return error_text().password_error
+
+        return error_text().ok
 
 
 if __name__ == '__main__':
     loginservice = LoginService()
     user_info = {
-        "user_name": "admin",
+        "username": "admin",
         "password": "123456"
     }
     res = loginservice.login(user_info)

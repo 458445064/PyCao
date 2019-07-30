@@ -9,8 +9,9 @@ class error_text(Singleton):
     def __init__(self):
         self.__ok = {"message": "success", "code": "200", "name": True}
         self.__notfound = {"message": "该账号不存在", "code": "40001", "name": False}
-        self.__exception = {"message": "账号异常", "code": "40002", "name": False}
+        self.__exception = {"message": "状态异常", "code": "40002", "name": False}
         self.__params = {"message": "参数异常", "code": "40003", "name": False}
+        self.__password_error = {"message": "密码错误", "code": "40004", "name": False}
 
     @property
     def ok(self):
@@ -31,11 +32,28 @@ class error_text(Singleton):
     @property
     def exception(self):
         """
-        账号异常
+        状态异常
         :return:
         """
         return self.__exception
 
     @property
     def params(self):
+        """
+        参数错误
+        :return:
+        """
         return self.__params
+
+    @property
+    def password_error(self):
+        """
+        密码错误
+        :return:
+        """
+        return self.__password_error
+
+if __name__ == '__main__':
+    # obj = error_text()
+    ok = error_text().ok
+    print(ok)

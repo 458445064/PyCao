@@ -9,12 +9,13 @@ class MysqlDB(object):
     def __init__(self, *args, **kwargs):
         self.conf_name = kwargs.get("conf_name")
         self.db_name = kwargs.get("db_name")
+        self.link_type = kwargs.get("link_type", "default")
 
     @contextlib.contextmanager
     def get_conn(self, *args, **kwargs):
         # 获取主从连接
-        self.conf = mysql_conf.get(self.conf_name)
-        conf = self.conf.get(kwargs.get("link_type", 'default'))
+        conf_info = mysql_conf.get(self.conf_name)
+        conf = conf_info.get(self.link_type)
         host = conf.get("host")
         port = conf.get("port")
         user = conf.get("user")

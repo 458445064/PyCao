@@ -33,7 +33,7 @@ class dbfactory():
 
     @staticmethod
     def db_redis(*args, **kwargs):
-        return RedisDB.getRedisConn(**kwargs)
+        return RedisDB(**kwargs)
     #
     # @staticmethod
     # def db_pika(*args, **kwargs):

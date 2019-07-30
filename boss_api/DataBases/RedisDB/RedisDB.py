@@ -1,38 +1,25 @@
 # -*- coding: utf-8 -*-s
 import redis
+import contextlib
 from apps.config.Config import redis_conf
 
 
-
 class RedisDB(object):
-    def __init__(self, *args, **kwargs):
-        pass
+    def __init__(self, **kwargs):
+        self.conf_name = kwargs.get("conf_name")
+        self.db = kwargs.get("db")
+        self.link_type = kwargs.get("link_type", "default")
 
-    pool = {}
+    @contextlib.contextmanager
+    def get_conn(self, **kwargs):
+        conf_info = redis_conf.get(self.conf_name)
+        conf = conf_info.get(self.link_type)
+        pool = redis.ConnectionPool(
+            host=conf["host"],
+            port=conf["port"],
+            password=conf["password"],
+            db=self.db
+        )  # 连接池
+        redis_cursor = redis.Redis(connection_pool=pool)
 
-    @staticmethod
-    def getRedisConn(**kwargs):
-        conf_name = kwargs.get("conf_name")
-        link_type = kwargs.get("link_type","slave1")
-        server = RedisDB.pool.get(conf_name, None)
-        if not server:
-            conf = redis_conf.get(conf_name, {})
-            conf1 = conf.get(link_type)
-            db_url = conf1.get("db_url", "")
-            host = conf.get("host", "127.0.0.1")
-            port = conf.get("port", 6379)
-            db = conf.get("db", 0)
-            max_connections = conf.get("max_connections", 2)
-            if db_url:
-                pool = redis.ConnectionPool.from_url(url=db_url)
-            else:
-                pool = redis.ConnectionPool(host=host, port=port, db=db, max_connections=max_connections)
-            server = redis.StrictRedis(connection_pool=pool)
-            RedisDB.pool.setdefault(conf_name, server)
-        return server
-
-
-if __name__ == '__main__':
-    RB = RedisDB(conf_name="plathouse")
-    con = RB.getRedisConn()
-    con.set("name", "888")
+        yield redis_cursor

@@ -9,23 +9,24 @@ import requests
 import pinyin
 import re
 import platform
-from DataBases.dbfactory.dbfactory import dbfactory
+from PackRoute import Singleton
 
 
-class BaseUtils(object):
+class BaseUtils(Singleton):
 
     @staticmethod
     def RunPosition():
-        systemType = platform.system()
-        if systemType == "Windows":
+        system = platform.system()
+        if system == "Windows":
             env_type = "default"
         else:
             env_type = "slave1"
         return env_type
 
-    def getMd5(self, value):
+    @staticmethod
+    def getMd5(value):
         m = hashlib.md5()
-        m.update(value)
+        m.update(value.encode('utf8'))
         return m.hexdigest()
 
     @staticmethod
@@ -36,16 +37,12 @@ class BaseUtils(object):
 
     @staticmethod
     def localtime():
-        LicalTody2 = arrow.now().format("YYYYMMDD")
-        return LicalTody2
+        local_time = arrow.now().format("YYYYMMDD")
+        return local_time
 
 
 if __name__ == '__main__':
     Object = BaseUtils()
-    O1 = Object.MorningTime()
-    print(O1)
-
-
-
-
-
+    Object.getMd5(value="madin")
+    # O1 = Object.MorningTime()
+    # print(O1)
