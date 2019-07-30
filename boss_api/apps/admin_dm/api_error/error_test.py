@@ -1,4 +1,7 @@
-class error_text(object):
+from PackRoute import Singleton
+
+
+class error_text(Singleton):
     """
     api 接口返回文本
     """
@@ -36,9 +39,3 @@ class error_text(object):
     @property
     def params(self):
         return self.__params
-
-
-if __name__ == '__main__':
-    error = error_text()
-    text = error.ok
-    print(text)

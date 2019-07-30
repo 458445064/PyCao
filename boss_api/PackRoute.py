@@ -1,14 +1,28 @@
 import tornado.web
+import time
+import json
+
+
+class Singleton(object):
+    _instance = None
+
+    @classmethod
+    def instance(cls):
+        if not cls._instance:
+            cls._instance = cls()
+        return cls._instance
+
 
 class Route(object):
     def __init__(self):
         self.urls = []
-    def __call__(self,url,*args, **kwargs):
-        def wrapper(cls):
-            self.urls.append((url,cls))
-            return cls
-        return wrapper
 
+    def __call__(self, url, *args, **kwargs):
+        def wrapper(cls):
+            self.urls.append((url, cls))
+            return cls
+
+        return wrapper
 
 
 def catch_yield(*dargs, **dkwargs):
@@ -33,9 +47,10 @@ def catch_yield(*dargs, **dkwargs):
             except Exception as e:
                 result = {"message": str(e), "code": 500}
                 request.write(json.dumps(result))
-        return _wrapper
-    return wrapper
 
+        return _wrapper
+
+    return wrapper
 
 
 class BaseController(tornado.web.RequestHandler):
