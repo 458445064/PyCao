@@ -28,6 +28,7 @@ class BaseConn(Singleton):
         with self.redis_conn.get_conn() as cursor:
             res = cursor.hset(name, key, value)
             if expired_time:
+                cursor.expire(name, expired_time)
                 print("添加过期时间.", expired_time)
             return res
 

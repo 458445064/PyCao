@@ -4,6 +4,9 @@ import hashlib
 import arrow
 import re
 import platform
+import nexmo
+import string
+import random
 from PackRoute import Singleton
 
 
@@ -65,7 +68,28 @@ class BaseUtils(Singleton):
             return False
 
 
+def send_code(phone):
+    client = nexmo.Client(key='9e6881d8', secret='EfmTX6rrUe64X3RE')
+    seeds = string.digits
+    random_str = random.choices(seeds, k=4)
+    code = "".join(random_str)
+
+    res_send_code = client.send_message({
+        'from': 'admin_vue',
+        'to': f'86{phone}',
+        'text': f'admin_vue 验证码:{code}',
+    })
+    res_send_code.get("messages")[0].get("status")
+    # send_state = res_send_code.get("messages")[0].get("status")
+    # if send_state is None or send_state != '0':
+    #     return False
+    # else:
+    #     return code
+    return code
+
+
 if __name__ == '__main__':
-    Object = BaseUtils()
+    # Object = BaseUtils()
+    send_code(phone="17611406012")
     # Object.getMd5(value="madin")
     # O1 = Object.check_phone(phone="17611406012")

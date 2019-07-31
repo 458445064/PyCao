@@ -1,9 +1,12 @@
 from apps.admin_dm.service.base_service import BaseConn
-from utius.BaseUtius import BaseUtils
+from utius.BaseUtius import BaseUtils, send_code
 from apps.admin_dm.api_error.error_test import error_text
 
 
 class CreateUserService(object):
+    """
+    创建用户
+    """
 
     def __init__(self):
         self.base_conn_redis = BaseConn(conf_name="admin_vue", db_type="db_redis", db=1)
@@ -49,6 +52,36 @@ class CreateUserService(object):
             return error_text(message="系统内部错误.", code="45555").default_error
 
         return error_text().ok
+
+
+class SendCodeService(object):
+    """
+    发送验证码
+    """
+
+    def __init__(self):
+        self.base_conn_redis = BaseConn(conf_name="admin_vue", db_type="db_redis", db=1)
+
+    def send_code(self, info):
+        redis_conn = self.base_conn_redis
+
+        docs = eval(info)
+        phone = docs.get("phone")
+        if not BaseUtils.check_phone(phone):
+            return error_text(message="手机号格式错误.", code="40007").default_error
+
+        res_code = send_code(phone=phone)
+        print("this is send code", res_code)
+        if not res_code:
+            return error_text(message="验证码发送失败.", code="40008").default_error
+        res = redis_conn.redis_conn_hset(name="check_phone_code", key=phone, value=res_code, expired_time=30)
+        print(res, "添加完过期时间值", res)
+
+
+
+
+        return error_text().ok
+
 
 
 class LoginService(object):
