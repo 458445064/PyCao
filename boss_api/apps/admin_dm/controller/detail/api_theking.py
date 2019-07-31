@@ -1,12 +1,11 @@
 import json
 from PackRoute import BaseController
 from PackRoute import Route
-from apps.admin_dm.service.detail.LoginService import LoginService
+from apps.admin_dm.service.detail.LoginService import LoginService, CreateUserService
 # from apps.admin_dm.controller.basecontroller import Permission
 from apps.admin_dm.api_error.error_test import error_text
 
 route = Route()
-
 
 
 @route("/hello")
@@ -19,13 +18,36 @@ class Hellow(BaseController):
 
 @route("/login")
 class Login(BaseController):
+    """
+    admin 登录接口
+    """
     LoginServices = LoginService()
 
     # @Permission(pms=['signature'])
     def post(self, *args, **kwargs):
         try:
-            user_detail = str(self.request.body, encoding="utf-8")
-            result = self.LoginServices.login(user_detail)
+            info = str(self.request.body, encoding="utf-8")
+            result = self.LoginServices.login(info)
         except Exception as e:
+            print("error: [{0}]".format(e))
             result = error_text().exception
         self.write(result)
+
+
+@route("/create/user")
+class CreateUserInfo(BaseController):
+    """
+    admin 用户创建
+    """
+    CreateService = CreateUserService()
+
+    # @Permission(pms=['signature'])
+    def post(self, *args, **kwargs):
+        try:
+            info = str(self.request.body, encoding="utf-8")
+            result = self.CreateService.create_user(info)
+        except Exception as e:
+            print("error: [{0}]".format(e))
+            result = error_text().exception
+        self.write(result)
+

@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 from DataBases.MysqlDB.MysqlDB import MysqlDB
 from DataBases.RedisDB.RedisDB import RedisDB
-# from zhuge.databases.tidb.tidb import TiDB
-# from zhuge.databases.pikadb.pikadb import PikaDB
-# from zhuge.databases.redisdb.redisdb import RedisDB
-# from zhuge.databases.mongodb.mongodb import MongoDB
-# from zhuge.databases.rabbitmqdb.rabbitmq import Rabbitmq
-# from zhuge.databases.esdb.esdb import EsDB
+from DataBases.MongoDB.MondoDB import MongoDB
 
 
 class dbfactory():
@@ -23,9 +18,9 @@ class dbfactory():
     # def db_tidb(*args, **kwargs):
     #     return TiDB(**kwargs)
     #
-    # @staticmethod
-    # def db_mongo(*args, **kwargs):
-    #     return MongoDB(**kwargs)
+    @staticmethod
+    def db_mongo(*args, **kwargs):
+        return MongoDB(**kwargs)
     #
     # @staticmethod
     # def db_es(*args, **kwargs):
