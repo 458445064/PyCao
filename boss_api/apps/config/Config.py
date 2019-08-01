@@ -50,3 +50,10 @@ mongo_conf = {
         }
     }
 }
+
+rabbit_mq_conf = {
+    "host": "118.31.74.55",
+    "port": 15672,
+    "user": "admin",
+    "password": "admin"
+}
