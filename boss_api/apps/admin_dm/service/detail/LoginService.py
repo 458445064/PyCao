@@ -76,7 +76,7 @@ class SendCodeService(object):
         if get_code:
             return error_text(message="请不要重复发送验证码,不花你钱咋的.", code="55555").default_error
 
-        ##### 发送短信 不能写到接口当中
+        # 发送短信 不能写到接口当中
         res_code = send_code(phone=phone)
         print("this is send code", res_code)
         if not res_code:
@@ -138,7 +138,5 @@ class LoginService(object):
 #     print(res)
 
 
-
-
-    # 接口用于免密登录 如果电话号存在就验证短信
-    #               如果不存在就直接跳到创建用户界面
+# 接口用于免密登录 如果电话号存在就验证短信
+#               如果不存在就直接跳到创建用户界面
