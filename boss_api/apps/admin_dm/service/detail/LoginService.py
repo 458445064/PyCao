@@ -61,27 +61,46 @@ class SendCodeService(object):
 
     def __init__(self):
         self.base_conn_redis = BaseConn(conf_name="admin_vue", db_type="db_redis", db=1)
+        # self.base_conn_mongo = BaseConn(conf_name="admin_vue", db_name="admin_dm", db_type="db_mongo")
 
     def send_code(self, info):
         redis_conn = self.base_conn_redis
+        # mongo_conn = self.base_conn_mongo
 
         docs = eval(info)
         phone = docs.get("phone")
         if not BaseUtils.check_phone(phone):
             return error_text(message="手机号格式错误.", code="40007").default_error
 
+        get_code = redis_conn.redis_conn_hget(key="check_phone_code", value=phone)
+        if get_code:
+            return error_text(message="请不要重复发送验证码,不花你钱咋的.", code="55555").default_error
+
+        ##### 发送短信 不能写到接口当中
         res_code = send_code(phone=phone)
         print("this is send code", res_code)
         if not res_code:
             return error_text(message="验证码发送失败.", code="40008").default_error
-        res = redis_conn.redis_conn_hset(name="check_phone_code", key=phone, value=res_code, expired_time=30)
-        print(res, "添加完过期时间值", res)
 
-
-
-
+        check_code = redis_conn.redis_conn_hset(
+            name="check_phone_code",
+            key=phone,
+            value=res_code,
+            expired_time=50
+        )
+        if not check_code:
+            return error_text(message="验证码已发送.", code="55555").default_error
+        #####
         return error_text().ok
-
+        # res_user_info = mongo_conn.mongo_conn_find_one(
+        #     spec={"user_phone": phone},
+        #     display={"user_name": 1, "_id": 0},
+        #     table="user"
+        # )
+        # if not res_user_info:
+        #     return error_text(message="免密登录验证失败.", code="5555").default_error
+        # print("this is res mongo", res_user_info)
+        # return error_text(data=res_user_info).ok
 
 
 class LoginService(object):
@@ -109,7 +128,6 @@ class LoginService(object):
 
         return error_text().ok
 
-
 # if __name__ == '__main__':
 #     loginservice = LoginService()
 #     user_info = {
@@ -118,3 +136,9 @@ class LoginService(object):
 #     }
 #     res = loginservice.login(user_info)
 #     print(res)
+
+
+
+
+    # 接口用于免密登录 如果电话号存在就验证短信
+    #               如果不存在就直接跳到创建用户界面

@@ -32,10 +32,24 @@ class BaseConn(Singleton):
                 print("添加过期时间.", expired_time)
             return res
 
+    def redis_conn_zadd(self,):
+        pass
+
     def mongo_conn_insert(self, doc, table):
         with self.mongo_conn.get_conn() as cursor:
             insert_value = cursor[table].insert_one(doc)
             return insert_value
+
+    def mongo_conn_find_one(self, spec, display, table):
+        with self.mongo_conn.get_conn() as cursor:
+            insert_value = cursor[table].find_one(spec, display)
+            return insert_value
+
+    def mongo_conn_find(self, spec, table):
+        pass
+
+    def mongo_conn_aggregate(self):
+        pass
 
 
 if __name__ == '__main__':

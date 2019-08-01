@@ -6,7 +6,7 @@ class error_text(Singleton):
     api 接口返回文本
     """
 
-    def __init__(self, message='', code='4444'):
+    def __init__(self, message="", code="4444", data=None):
         self.__ok = {"message": "success", "code": "200", "name": True}
         self.__notfound = {"message": "该账号不存在", "code": "40001", "name": False}
         self.__exception = {"message": "状态异常", "code": "40002", "name": False}
@@ -14,6 +14,7 @@ class error_text(Singleton):
         self.__password_error = {"message": "密码错误", "code": "40004", "name": False}
         self.__data_exists = {"message": "数据已存在", "code": "40005", "name": False}
         self.__default_error = {"message": message, "code": code, "name": False}
+        self.__default_data = {"message": message, "code": "200", data: data}
 
     @property
     def ok(self):
@@ -70,6 +71,14 @@ class error_text(Singleton):
         :return:
         """
         return self.__default_error
+
+    @property
+    def default_data(self):
+        """
+        自定义 成功 message
+        :return:
+        """
+        return self.__default_data
 
 
 if __name__ == '__main__':

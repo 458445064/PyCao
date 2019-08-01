@@ -79,13 +79,17 @@ def send_code(phone):
         'to': f'86{phone}',
         'text': f'admin_vue 验证码:{code}',
     })
-    res_send_code.get("messages")[0].get("status")
     # send_state = res_send_code.get("messages")[0].get("status")
+    print(res_send_code)
+    return code
     # if send_state is None or send_state != '0':
     #     return False
     # else:
     #     return code
-    return code
+
+    # if not res_send_code:
+    #     return False
+    # else:
 
 
 if __name__ == '__main__':
