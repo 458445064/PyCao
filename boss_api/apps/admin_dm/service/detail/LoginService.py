@@ -67,7 +67,7 @@ class SendCodeService(object):
 
     def __init__(self):
         self.base_conn_redis = BaseConn(conf_name="admin_vue", db_type="db_redis", db=1)
-        self.base_conn_mq = BaseConn(db_type="mqdb", queue_name="hello")
+        self.base_conn_mq = BaseConn(db_type="mqdb")
 
     def send_code(self, info):
         redis_conn = self.base_conn_redis

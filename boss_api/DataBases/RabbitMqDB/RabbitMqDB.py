@@ -12,7 +12,7 @@ from apps.config.Config import rabbit_mq_conf
 class RabbitMqDB(object):
 
     def __init__(self, **kwargs):
-        self.queue = kwargs.get("queue_name")
+        pass
 
     @contextlib.contextmanager
     def conn(self):
