@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from DataBases.MysqlDB.MysqlDB import MysqlDB
 from DataBases.RedisDB.RedisDB import RedisDB
-from DataBases.MongoDB.MondoDB import MongoDB
+from DataBases.MongoDB.MongoDB import MongoDB
+from DataBases.RabbitMqDB.RabbitMqDB import RabbitMqDB
 
 
 class dbfactory():
@@ -34,6 +35,7 @@ class dbfactory():
     # def db_pika(*args, **kwargs):
     #     return PikaDB.getPikaConn(**kwargs)
     #
-    # @staticmethod
-    # def db_rabbitmq(*args, **kwargs):
-    #     return Rabbitmq(**kwargs)
+    @staticmethod
+    def mqdb(*args, **kwargs):
+        return RabbitMqDB(**kwargs)
+#

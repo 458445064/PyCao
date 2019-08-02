@@ -8,10 +8,11 @@ from DataBases.dbfactory.dbfactory import dbfactory
 
 class BaseConn(Singleton):
 
-    def __init__(self, conf_name=None, db_name=None, db_type="db_mysql", db=1):
+    def __init__(self, conf_name=None, db_name=None, db_type="db_mysql", db=1, queue_name=""):
         self.mysql_conn = dbfactory.create_db(conf_name=conf_name, db_name=db_name, db_type=db_type)
         self.redis_conn = dbfactory.create_db(conf_name=conf_name, db=db, db_type=db_type)
         self.mongo_conn = dbfactory.create_db(conf_name=conf_name, db_name=db_name, db_type=db_type)
+        self.mq_conn = dbfactory.create_db(db_type=db_type, queue_name=queue_name)
 
     def mysql_conn_find(self, sql):
         with self.mysql_conn.get_conn() as cursor:
@@ -51,6 +52,13 @@ class BaseConn(Singleton):
     def mongo_conn_aggregate(self):
         pass
 
+    def mq_conn_send(self, queue='', routing_key='', body=''):
+        with self.mq_conn.conn() as channel:
+            channel.queue_declare(queue=queue)
+            channel.basic_publish(exchange='',
+                                  routing_key=routing_key,
+                                  body=body)
+            return True
 
 if __name__ == '__main__':
     mongo = BaseConn(conf_name="admin_vue", db_name="admin_dm", db_type="db_mongo")

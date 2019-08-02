@@ -67,6 +67,13 @@ class BaseUtils(Singleton):
         if not re.match(pattern_card, card):
             return False
 
+    @staticmethod
+    def random_str_int(bit):
+        seeds = string.digits
+        random_str = random.choices(seeds, k=bit)
+        random_code = "".join(random_str)
+        return random_code
+
 
 def send_code(phone):
     client = nexmo.Client(key='9e6881d8', secret='EfmTX6rrUe64X3RE')

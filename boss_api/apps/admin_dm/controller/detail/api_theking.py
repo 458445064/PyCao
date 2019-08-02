@@ -1,7 +1,7 @@
 import json
 from PackRoute import BaseController
 from PackRoute import Route
-from apps.admin_dm.service.detail.LoginService import LoginService, CreateUserService, SendCodeService
+from apps.admin_dm.service.detail.LoginService import LoginService, CreateUserService, SendCodeService, FreeLoginService
 # from apps.admin_dm.controller.basecontroller import Permission
 from apps.admin_dm.api_error.error_test import error_text
 
@@ -28,6 +28,24 @@ class Login(BaseController):
         try:
             info = str(self.request.body, encoding="utf-8")
             result = self.LoginServices.login(info)
+        except Exception as e:
+            print("error: [{0}]".format(e))
+            result = error_text().exception
+        self.write(result)
+
+
+@route("/free/login")
+class FreeLogin(BaseController):
+    """
+    免密登录接口
+    """
+    FreeLoginService = FreeLoginService()
+
+    # @Permission(pms=['signature'])
+    def post(self, *args, **kwargs):
+        try:
+            info = str(self.request.body, encoding="utf-8")
+            result = self.FreeLoginService.free_login(info)
         except Exception as e:
             print("error: [{0}]".format(e))
             result = error_text().exception
